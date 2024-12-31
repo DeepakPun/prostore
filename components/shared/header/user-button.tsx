@@ -7,9 +7,8 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Label } from '@/components/ui/label'
 import { signOutUser } from '@/lib/actions/user.actions'
-import { UserIcon } from 'lucide-react'
+import { UserIcon, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
 const UserButton = async () => {
@@ -55,7 +54,7 @@ const UserButton = async () => {
 							<Button
 								className='w-full py-4 px-2 h-4 justify-start'
 								variant='ghost'>
-								Sign Out
+								<LogOut /> Sign Out
 							</Button>
 						</form>
 					</DropdownMenuItem>

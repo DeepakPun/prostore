@@ -70,11 +70,12 @@ export const config = {
 		async jwt({ token, user, trigger, session }: any) {
 			// Assign user fields to token
 			if (user) {
+				token.id = user.id
 				token.role = user.role
 
 				// if user has no name, then user the email
 				if (user.name === 'NO_NAME') {
-					token.name = user.email!.split('@')[0]
+					token.name = user.email!.split('@')[0].capitalize()
 
 					// update the database to reflect token name
 					await prisma.user.update({

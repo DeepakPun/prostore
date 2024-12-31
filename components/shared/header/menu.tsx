@@ -2,7 +2,6 @@ import {
 	EllipsisVertical,
 	ShoppingCart,
 	ShoppingCartIcon,
-	UserIcon,
 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'

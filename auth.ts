@@ -85,13 +85,58 @@ export const config = {
 						data: { name: token.name },
 					})
 				}
+
+				if (trigger === 'signIn' || trigger === 'signUp') {
+					const cookiesObject = await cookies()
+					const sessionCartId = cookiesObject.get('sessionCartId').value
+
+					if (sessionCartId) {
+						const sessionCart = await prisma.cart.findFirst({
+							where: { sessionCartId },
+						})
+
+						if (sessionCart) {
+							// Delete current user cart
+							await prisma.cart.deleteMany({
+								where: { userId: user.id },
+							})
+
+							// Assign new cart
+							await prisma.cart.update({
+								where: { id: sessionCart.id },
+								data: { userId: user.id },
+							})
+						}
+					}
+				}
+			}
+			// Handle session updates
+			if (session?.user.name && trigger === 'update') {
+				token.name = session.user.name
 			}
 
 			return token
 		},
 		authorized({ request, auth }: any) {
-			// Check for session cart cookie
+			// Create an array of regex patterns of paths we want to protect
+			const protectedPaths = [
+				/\/shipping-address/,
+				/\/payment-method/,
+				/\/place-order/,
+				/\/profile/,
+				/\/user\/(.*)/,
+				/\/order\/(.*)/,
+				/\/admin/,
+			]
+
+			// Get ptahname from the req URL object
+			const { pathname } = request.nextUrl
+
+			// Check if user is not authenticated and accessing a protected route
+			if (!auth && protectedPaths.some(p => p.test(pathname))) return false
+
 			if (!request.cookies.get('sessionCartId')) {
+				// Check for session cart cookie
 				// Generate new session cart id cookie
 				const sessionCartId = crypto.randomUUID()
 

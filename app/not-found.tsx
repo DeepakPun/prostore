@@ -3,17 +3,20 @@
 import { Button } from '@/components/ui/button'
 import { APP_NAME } from '@/lib/constants'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const NotFoundPage = () => {
 	return (
 		<div className='flex px-5 flex-col items-center justify-center min-h-screen'>
-			<Image
-				src='/images/logo.svg'
-				height={48}
-				width={48}
-				alt={`${APP_NAME}`}
-				priority
-			/>
+			<Link href='/'>
+				<Image
+					src='/images/logo.svg'
+					height={48}
+					width={48}
+					alt={`${APP_NAME}`}
+					priority
+				/>
+			</Link>
 			<div className='p-6 rounded-lg shadow-md text-center w-full sm:w-1/3'>
 				<h1 className='text-3xl font-bold mb-4'>Not Found</h1>
 				<p className='text-destructive'>Could not find requested page</p>

@@ -2,13 +2,14 @@
 // await delay(3000)
 
 import ProductList from "@/components/shared/product/product-list"
-import sampleData from "@/db/sample-data"
-console.log(sampleData)
+import { getLatestProducts } from "@/lib/actions/product.actions"
 
-export default function Homepage() {
+export default async function Homepage() {
+  const latestProducts = await getLatestProducts()
+
   return (
     <>
-      <ProductList data={sampleData.products} title="Newest Arrivals" />
+      <ProductList data={latestProducts} title="Newest Arrivals" />
     </>
   )
 }
